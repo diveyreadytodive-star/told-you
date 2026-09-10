@@ -11,3 +11,4 @@ data/*.json
 *.key
 keystore.json
 deliverables/told-you-pitch-deck-v[1-5].pptx
+.vercel
