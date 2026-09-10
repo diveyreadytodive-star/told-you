@@ -37,6 +37,10 @@ For a wallet-free fixture, open:
 http://127.0.0.1:4175/arena?demo=1&round=round-demo
 ```
 
+## Hosted demo
+
+The Vercel deployment serves the product UI, the DreamDEX market reads, and the Somnia oracle-price reads. It falls back to browser-local round storage when no hosted record service is configured. Persistent cross-device rivalry links therefore require a future KV or database-backed record service.
+
 ## Routes
 
 - `/` — product introduction
