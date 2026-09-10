@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.deck-build/
+.codex-finalizer/
+.omx/
+.env
+.env.*
+!.env.example
+data/*.json
+!data/.gitkeep
+*.key
+keystore.json
+deliverables/told-you-pitch-deck-v[1-5].pptx

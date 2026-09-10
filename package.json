@@ -1,0 +1,23 @@
+{
+  "name": "call-it",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "start": "node server.mjs",
+    "proof:markets": "node scripts/proof-live-markets.mjs",
+    "proof:onchain": "node scripts/proof-onchain-market.mjs",
+    "test": "node --test",
+    "check": "npm run test && npm run build"
+  },
+  "dependencies": {
+    "@somnia-chain/markets-sdk": "^0.28.1",
+    "viem": "^2.39.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.7"
+  }
+}
