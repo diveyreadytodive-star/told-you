@@ -235,6 +235,12 @@ input:focus { border-color: #9ecb7b; }
 .round-lobby h1 { margin: 10px 0 13px; font-size: 34px; letter-spacing: -1px; }
 .round-lobby > p:not(.market-kicker) { color: #a7b4bf; font-size: 13px; line-height: 1.75; margin-bottom: 24px; }
 .round-rules { display: grid; gap: 8px; margin: 20px 0; color: #9eacb8; font-size: 11px; }
+.open-duels { width: min(100% - 48px, 700px); margin: 0 auto 28px; padding: 18px; border: 1px solid #34404c; border-radius: 11px; background: #111920; }
+.open-duels h2 { font-size: 16px; letter-spacing: -.3px; }
+.duel-list { display: grid; gap: 7px; margin-top: 14px; }
+.duel-list a { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; padding: 11px 12px; border: 1px solid #303c47; border-radius: 8px; color: inherit; background: #151d25; text-decoration: none; }
+.duel-list a:hover { border-color: #83ad62; }.duel-list span { font: 11px "DM Mono", monospace; color: #e1e9f0; }.duel-list small { color: #9caab7; font-size: 10px; }.duel-list b { color: var(--up); font-size: 10px; }
+.open-duels .empty { margin: 14px 0 0; color: #94a3b0; font-size: 11px; line-height: 1.6; }
 .ready-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 20px 0; }
 .ready-grid span { padding: 12px; border: 1px solid #3d4853; border-radius: 8px; color: #aab7c3; font-size: 11px; }
 .ready-grid span.ready { border-color: #86b65f; background: #26361e; color: var(--up); }
@@ -292,6 +298,8 @@ input:focus { border-color: #9ecb7b; }
   .round-topline h1 { font-size: 30px; }
   .scoreboard { padding: 14px 18px; }
   .open-positions { width: calc(100% - 36px); }
+  .open-duels { width: calc(100% - 36px); }
+  .duel-list a { grid-template-columns: 1fr auto; }.duel-list small { grid-column: 1 / -1; grid-row: 2; }
   .position-heading { align-items: start; }.position-heading small { text-align: left; }
   .position-row { grid-template-columns: 1fr auto; }.position-row > div:nth-child(2) { text-align: left; }.position-row button { grid-column: 1 / -1; width: 100%; }
   .empty-positions { display: grid; gap: 7px; }.empty-positions > small { text-align: left; }

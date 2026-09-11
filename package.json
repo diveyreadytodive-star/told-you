@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@somnia-chain/markets-sdk": "^0.28.1",
+    "@upstash/redis": "^1.38.4",
     "viem": "^2.39.0"
   },
   "devDependencies": {
