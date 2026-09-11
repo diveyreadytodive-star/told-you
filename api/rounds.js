@@ -5,8 +5,9 @@ const keyFor = (id) => `told-you:round:${id}`;
 const isAddress = (value) => /^0x[a-fA-F0-9]{40}$/.test(String(value || ""));
 
 function redis() {
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
-  return Redis.fromEnv();
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  return url && token ? new Redis({ url, token }) : null;
 }
 
 function safeRound(input = {}) {

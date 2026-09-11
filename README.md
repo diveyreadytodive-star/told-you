@@ -43,11 +43,13 @@ The Vercel deployment serves the product UI, the DreamDEX market reads, and the 
 
 ### Public Open Duels board
 
-The public board uses the Vercel function at `/api/rounds` and Upstash Redis for durable cross-browser rounds. Connect the Upstash Marketplace integration to the Vercel project, then redeploy. The integration supplies these server-only variables automatically:
+The public board uses the Vercel function at `/api/rounds` and Upstash Redis for durable cross-browser rounds. Connect the Upstash Marketplace integration to the Vercel project, then redeploy. The integration supplies server-only Redis REST URL and token variables automatically. Current Vercel Marketplace naming is `KV_REST_API_URL` and `KV_REST_API_TOKEN`; standard Upstash naming also works:
 
 ```text
 UPSTASH_REDIS_REST_URL
 UPSTASH_REDIS_REST_TOKEN
+KV_REST_API_URL
+KV_REST_API_TOKEN
 ```
 
 Until those variables are configured, the app shows an honest storage-unavailable state and only the isolated browser demo works. It does not claim that a public duel link can match users across devices.
