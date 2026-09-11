@@ -234,6 +234,13 @@ input:focus { border-color: #9ecb7b; }
 .round-lobby { width: min(100%, 560px); margin: 58px auto; padding: 34px; text-align: center; }
 .round-lobby h1 { margin: 10px 0 13px; font-size: 34px; letter-spacing: -1px; }
 .round-lobby > p:not(.market-kicker) { color: #a7b4bf; font-size: 13px; line-height: 1.75; margin-bottom: 24px; }
+.lobby-room { max-width: 650px; }
+.lobby-roster { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 22px 0 12px; text-align: left; }
+.lobby-seat { display: grid; gap: 7px; min-height: 105px; padding: 14px; border: 1px dashed #3b4753; border-radius: 10px; background: #111820; }
+.lobby-seat.active { border-style: solid; border-color: #85b85f; background: linear-gradient(145deg,#1d2a1a,#111820); }.lobby-seat > span { color: #93a2ae; font: 9px "DM Mono", monospace; }.lobby-seat strong { font: 14px "DM Mono", monospace; color: #e7edf3; }.lobby-seat small { color: #a0afba; font-size: 10px; }
+.lobby-facts { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }.lobby-facts span { padding: 6px 8px; border: 1px solid #33404b; border-radius: 5px; color: #a7b5c2; font: 9px "DM Mono", monospace; }
+.lobby-note { display: block; margin-top: 16px; color: #8f9eab; font-size: 10px; line-height: 1.6; }
+.ready-launch { display: grid; gap: 5px; margin: 4px 0 16px; padding: 12px; border: 1px solid #3b4651; border-radius: 8px; background: #121a22; text-align: left; }.ready-launch.armed { border-color: #82b65d; background: #1c2a18; }.ready-launch span { color: #a4b2be; font: 9px "DM Mono", monospace; }.ready-launch strong { font-size: 12px; }
 .round-rules { display: grid; gap: 8px; margin: 20px 0; color: #9eacb8; font-size: 11px; }
 .open-duels { width: min(100% - 48px, 700px); margin: 0 auto 28px; padding: 18px; border: 1px solid #34404c; border-radius: 11px; background: #111920; }
 .open-duels h2 { font-size: 16px; letter-spacing: -.3px; }
@@ -294,6 +301,7 @@ input:focus { border-color: #9ecb7b; }
 .order-mode { margin-top: 13px; }
 @media (max-width: 760px) {
   .round-lobby { margin: 22px auto; padding: 24px 18px; }
+  .lobby-roster { grid-template-columns: 1fr; }
   .round-lobby h1 { font-size: 29px; }
   .round-topline { padding: 18px; }
   .round-topline h1 { font-size: 30px; }
