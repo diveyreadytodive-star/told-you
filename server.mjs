@@ -55,7 +55,7 @@ function safeRecord(input) {
 
 function safeRound(input) {
   const fields = [
-    "id", "createdAt", "startedAt", "endsAt", "closedAt", "creatorAddress", "rivalAddress",
+    "id", "createdAt", "expiresAt", "startedAt", "endsAt", "closedAt", "creatorAddress", "rivalAddress",
     "budget", "status", "creatorReady", "rivalReady", "creatorStartBalance", "rivalStartBalance", "trades",
     "closedAt", "resultStatus", "winnerAddress", "concededBy", "finalMarks", "finalScores", "lastMarks",
   ];
