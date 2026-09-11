@@ -2,6 +2,11 @@ import { challengeId, scoreRecords } from "./domain.js";
 
 const LOCAL_KEY = "call-it-duels-v1";
 const ROUND_LOCAL_KEY = "told-you-rounds-v1";
+let publicRoundStorage = { available: true, issue: "" };
+
+export function publicRoundStorageStatus() {
+  return { ...publicRoundStorage };
+}
 
 function localRecords() {
   try {
@@ -82,8 +87,11 @@ function saveLocalRounds(rounds) {
 
 export async function listRounds() {
   try {
-    return await request("/api/rounds");
-  } catch {
+    const rounds = await request("/api/rounds");
+    publicRoundStorage = { available: true, issue: "" };
+    return rounds;
+  } catch (error) {
+    publicRoundStorage = { available: false, issue: error.message || "Public round storage is unavailable." };
     return localRounds();
   }
 }
@@ -96,12 +104,15 @@ export async function saveRound(input) {
     createdAt: input.createdAt || new Date().toISOString(),
   };
   try {
-    return await request("/api/rounds", {
+    const saved = await request("/api/rounds", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(round),
     });
-  } catch {
+    publicRoundStorage = { available: true, issue: "" };
+    return saved;
+  } catch (error) {
+    publicRoundStorage = { available: false, issue: error.message || "Public round storage is unavailable." };
     const rounds = localRounds();
     const index = rounds.findIndex((item) => item.id === round.id);
     if (index >= 0) rounds[index] = { ...rounds[index], ...round };

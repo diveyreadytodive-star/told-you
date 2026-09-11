@@ -41,6 +41,17 @@ http://127.0.0.1:4175/arena?demo=1&round=round-demo
 
 The Vercel deployment serves the product UI, the DreamDEX market reads, and the Somnia oracle-price reads. It falls back to browser-local round storage when no hosted record service is configured. Persistent cross-device rivalry links therefore require a future KV or database-backed record service.
 
+### Public Open Duels board
+
+The public board uses the Vercel function at `/api/rounds` and Upstash Redis for durable cross-browser rounds. Connect the Upstash Marketplace integration to the Vercel project, then redeploy. The integration supplies these server-only variables automatically:
+
+```text
+UPSTASH_REDIS_REST_URL
+UPSTASH_REDIS_REST_TOKEN
+```
+
+Until those variables are configured, the app shows an honest storage-unavailable state and only the isolated browser demo works. It does not claim that a public duel link can match users across devices.
+
 ## Routes
 
 - `/` — product introduction

@@ -168,6 +168,21 @@ export function roundStatus(round, now = Date.now()) {
   return Number(new Date(round.endsAt)) > now ? "live" : "marking";
 }
 
+export function canJoinOpenRound(round, walletAddress, now = Date.now()) {
+  if (!round?.creatorAddress || !isWalletAddress(walletAddress)) return false;
+  if (normalizeAddress(round.creatorAddress) === normalizeAddress(walletAddress)) return false;
+  if (round.rivalAddress || round.startedAt || round.closedAt || round.resultStatus) return false;
+  if (round.expiresAt && Number(new Date(round.expiresAt)) <= now) return false;
+  return true;
+}
+
+export function openRounds(rounds = [], now = Date.now()) {
+  return rounds
+    .filter((round) => round?.creatorAddress && !round.rivalAddress && !round.startedAt && !round.closedAt && !round.resultStatus)
+    .filter((round) => !round.expiresAt || Number(new Date(round.expiresAt)) > now)
+    .sort((left, right) => Number(new Date(right.createdAt)) - Number(new Date(left.createdAt)));
+}
+
 export function roundTradeSummary(round, address, marks = {}) {
   const owner = normalizeAddress(address);
   const trades = (round?.trades || []).filter((trade) => normalizeAddress(trade.playerAddress) === owner);

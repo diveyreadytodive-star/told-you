@@ -241,6 +241,7 @@ input:focus { border-color: #9ecb7b; }
 .duel-list a { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 12px; padding: 11px 12px; border: 1px solid #303c47; border-radius: 8px; color: inherit; background: #151d25; text-decoration: none; }
 .duel-list a:hover { border-color: #83ad62; }.duel-list span { font: 11px "DM Mono", monospace; color: #e1e9f0; }.duel-list small { color: #9caab7; font-size: 10px; }.duel-list b { color: var(--up); font-size: 10px; }
 .open-duels .empty { margin: 14px 0 0; color: #94a3b0; font-size: 11px; line-height: 1.6; }
+.storage-warning { margin: 14px 0 0; border-left: 2px solid #d59c67; padding-left: 9px; color: #e2b784; font-size: 11px; line-height: 1.6; }
 .ready-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 20px 0; }
 .ready-grid span { padding: 12px; border: 1px solid #3d4853; border-radius: 8px; color: #aab7c3; font-size: 11px; }
 .ready-grid span.ready { border-color: #86b65f; background: #26361e; color: var(--up); }

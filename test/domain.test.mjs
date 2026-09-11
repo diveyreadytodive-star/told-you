@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { canJoinChallenge, challengeIdFromSearch, headToHead, oppositeSide, profileSummary, ratingTable, resultForChallenge, roundResult, roundTradePreflight, roundTradeSummary, scoreRecords } from "../src/domain.js";
+import { canJoinChallenge, canJoinOpenRound, challengeIdFromSearch, headToHead, openRounds, oppositeSide, profileSummary, ratingTable, resultForChallenge, roundResult, roundTradePreflight, roundTradeSummary, scoreRecords } from "../src/domain.js";
 
 test("a creator wallet cannot accept its own challenge", () => {
   assert.equal(canJoinChallenge({ creatorAddress: "0xAbC" }, "0xabc"), false);
@@ -102,6 +102,23 @@ test("round trade preflight caps buys and rejects inactive or outsider wallets",
   };
   assert.equal(roundTradePreflight(round, "0xa", 2, new Date("2026-09-09T00:10:00Z")).ready, false);
   assert.equal(roundTradePreflight(round, "0xc", 0, new Date("2026-09-09T00:10:00Z")).ready, false);
+});
+
+test("only a non-creator can join an open non-expired round", () => {
+  const round = { creatorAddress: "0x1111111111111111111111111111111111111111", expiresAt: "2026-09-12T00:00:00Z" };
+  const rival = "0x2222222222222222222222222222222222222222";
+  assert.equal(canJoinOpenRound(round, round.creatorAddress, new Date("2026-09-11T00:00:00Z")), false);
+  assert.equal(canJoinOpenRound(round, rival, new Date("2026-09-11T00:00:00Z")), true);
+  assert.equal(canJoinOpenRound({ ...round, rivalAddress: rival }, "0x3333333333333333333333333333333333333333", new Date("2026-09-11T00:00:00Z")), false);
+  assert.equal(canJoinOpenRound(round, rival, new Date("2026-09-13T00:00:00Z")), false);
+});
+
+test("open board filters full, started, closed, and expired rounds", () => {
+  const now = new Date("2026-09-11T00:00:00Z");
+  const open = { id: "open", creatorAddress: "0x1", createdAt: "2026-09-10T01:00:00Z" };
+  const newest = { id: "new", creatorAddress: "0x2", createdAt: "2026-09-10T02:00:00Z" };
+  const rows = openRounds([open, newest, { id: "full", creatorAddress: "0x3", rivalAddress: "0x4" }, { id: "started", creatorAddress: "0x5", startedAt: "2026-09-10T03:00:00Z" }, { id: "closed", creatorAddress: "0x6", closedAt: "2026-09-10T03:00:00Z" }, { id: "expired", creatorAddress: "0x7", expiresAt: "2026-09-10T00:00:00Z" }], now);
+  assert.deepEqual(rows.map((row) => row.id), ["new", "open"]);
 });
 
 test("closed round result compares a common mark only after both players trade", () => {

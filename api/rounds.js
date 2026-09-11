@@ -2,6 +2,7 @@ import { Redis } from "@upstash/redis";
 
 const ROUND_INDEX = "told-you:rounds";
 const keyFor = (id) => `told-you:round:${id}`;
+const isAddress = (value) => /^0x[a-fA-F0-9]{40}$/.test(String(value || ""));
 
 function redis() {
   if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
@@ -35,7 +36,26 @@ export default async function handler(request, response) {
     }
     if (round.trades && !Array.isArray(round.trades)) return response.status(400).json({ error: "Round trades must be an array." });
 
+    if (!/^round-[a-z0-9-]{6,64}$/i.test(round.id) || !isAddress(round.creatorAddress)) {
+      return response.status(400).json({ error: "Invalid public round identifier or creator address." });
+    }
+    if (round.rivalAddress && (!isAddress(round.rivalAddress) || round.rivalAddress.toLowerCase() === round.creatorAddress.toLowerCase())) {
+      return response.status(400).json({ error: "A rival must be a different valid wallet address." });
+    }
+
     const existing = await store.get(keyFor(round.id));
+    if (existing) {
+      if (existing.creatorAddress.toLowerCase() !== round.creatorAddress.toLowerCase()) {
+        return response.status(409).json({ error: "Round creator cannot be changed." });
+      }
+      if (existing.closedAt || existing.resultStatus) return response.status(409).json({ error: "This round is already closed." });
+      if (existing.rivalAddress && round.rivalAddress && existing.rivalAddress.toLowerCase() !== round.rivalAddress.toLowerCase()) {
+        return response.status(409).json({ error: "This public duel already has a rival." });
+      }
+      if (existing.startedAt && round.rivalAddress && existing.rivalAddress?.toLowerCase() !== round.rivalAddress.toLowerCase()) {
+        return response.status(409).json({ error: "A live round cannot accept another rival." });
+      }
+    }
     const next = { ...(existing || {}), ...round };
     await store.set(keyFor(round.id), next, { ex: 60 * 60 * 24 * 7 });
     await store.zadd(ROUND_INDEX, { score: Date.parse(next.createdAt) || Date.now(), member: next.id });
