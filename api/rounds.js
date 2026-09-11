@@ -50,6 +50,9 @@ export default async function handler(request, response) {
         return response.status(409).json({ error: "Round creator cannot be changed." });
       }
       if (existing.closedAt || existing.resultStatus) return response.status(409).json({ error: "This round is already closed." });
+      if (existing.expiresAt && Date.parse(existing.expiresAt) <= Date.now() && round.rivalAddress && !existing.rivalAddress) {
+        return response.status(409).json({ error: "This public duel has expired." });
+      }
       if (existing.rivalAddress && round.rivalAddress && existing.rivalAddress.toLowerCase() !== round.rivalAddress.toLowerCase()) {
         return response.status(409).json({ error: "This public duel already has a rival." });
       }
